@@ -1,0 +1,71 @@
+<div class="dialog-container">
+  <!-- Botón Cerrar Flotante -->
+  <button class="close-icon-btn" (click)="close()">✕</button>
+
+  <!-- Sección Imagen -->
+  <div class="product-image-section">
+    @if (data.imagenUrl) {
+      <img [src]="data.imagenUrl" [alt]="data.nombre" />
+    } @else {
+      <div class="placeholder-image">
+        <span style="font-size: 40px;">📱</span>
+      </div>
+    }
+    
+    <!-- Badges sobre la imagen -->
+    @if (data.esServicio) {
+      <div class="badge service-badge">SERVICIO</div>
+    } @else if (data.stock < 5 && data.stock > 0) {
+      <div class="badge low-stock">¡POCAS PIEZAS!</div>
+    }
+  </div>
+
+  <!-- Sección Información -->
+  <div class="product-info">
+    <span class="category-pill">{{ data.categoria }}</span>
+    <h1>{{ data.nombre }}</h1>
+    
+    <!-- Caja de Compatibilidad (Clave para EnTeck) -->
+    <div class="compatibility-box">
+      <span class="label">Compatible con:</span>
+      <strong class="model">{{ data.modeloCompatible }}</strong>
+    </div>
+
+    <div class="section">
+      <h3>Descripción:</h3>
+      <p>{{ data.descripcion }}</p>
+    </div>
+
+    <!-- Estado del Stock -->
+    @if (!data.esServicio) {
+      <div class="section stock-status">
+        @if (data.stock > 0) {
+          <span class="in-stock">✅ Disponible: {{ data.stock }} pzas</span>
+        } @else {
+          <span class="no-stock">❌ Agotado</span>
+        }
+      </div>
+    }
+
+    <!-- Precio -->
+    <div class="price-section">
+      <span class="price">${{ data.precio }}</span>
+    </div>
+
+    <!-- Selector de Cantidad y Botón Agregar -->
+    <div class="actions-footer">
+      <div class="quantity-section">
+        <button (click)="decreaseQuantity()" [disabled]="quantity() <= 1">−</button>
+        <span>{{ quantity() }}</span>
+        <button (click)="increaseQuantity()" [disabled]="!data.esServicio && quantity() >= data.stock">+</button>
+      </div>
+
+      <button class="add-button" 
+              (click)="addToCart()"
+              [disabled]="!data.esServicio && data.stock === 0"
+              [class.disabled-btn]="!data.esServicio && data.stock === 0">
+        {{ (!data.esServicio && data.stock === 0) ? 'Sin Stock' : 'Agregar al Carrito' }}
+      </button>
+    </div>
+  </div>
+</div>

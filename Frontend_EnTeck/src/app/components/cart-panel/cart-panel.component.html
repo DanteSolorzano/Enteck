@@ -1,0 +1,86 @@
+<div class="cart-panel-overlay" (click)="close()"></div>
+
+<div class="cart-panel">
+  <!-- Header -->
+  <div class="cart-header">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="font-size: 20px;">🛒</span>
+      <h2>Tu Pedido</h2>
+    </div>
+    <button class="close-btn" (click)="close()">✕</button>
+  </div>
+
+  <!-- Lista de Items -->
+  <div class="cart-items">
+    @if (cartService.items().length === 0) {
+      <div class="empty-cart">
+        <span style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.5;">📦</span>
+        <p>Tu carrito está vacío</p>
+        <button class="continue-btn" (click)="close()">Ver Catálogo</button>
+      </div>
+    } @else {
+      @for (item of cartService.items(); track item.product.id) {
+        <div class="cart-item">
+          <!-- Imagen -->
+          <div class="item-image">
+             @if (item.product.imagenUrl) {
+               <img [src]="item.product.imagenUrl" [alt]="item.product.nombre">
+             } @else {
+               <span>📱</span>
+             }
+          </div>
+
+          <!-- Info -->
+          <div class="item-info">
+            <div class="item-top">
+              <h3>{{ item.product.nombre }}</h3>
+              <button class="remove-btn" (click)="cartService.removeItem(item.product.id)">✕</button>
+            </div>
+            
+            <p class="model-badge">{{ item.product.modeloCompatible }}</p>
+            
+            <div class="item-bottom">
+              <p class="price">${{ item.product.precio * item.quantity }}</p>
+              
+              <!-- Controles -->
+              <div class="item-controls">
+                <button class="qty-btn" (click)="cartService.updateQuantity(item.product.id, item.quantity - 1)">−</button>
+                <span class="qty">{{ item.quantity }}</span>
+                <button class="qty-btn" 
+                  (click)="cartService.updateQuantity(item.product.id, item.quantity + 1)"
+                  [disabled]="!item.product.esServicio && item.quantity >= item.product.stock"
+                  [style.opacity]="(!item.product.esServicio && item.quantity >= item.product.stock) ? '0.5' : '1'">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    }
+  </div>
+
+  <!-- Footer -->
+  @if (cartService.items().length > 0) {
+    <div class="cart-footer">
+      @if (errorMessage()) {
+        <div class="error-message">{{ errorMessage() }}</div>
+      }
+      
+      <div class="total-row">
+        <span>Total a pagar:</span>
+        <span class="amount">${{ cartService.getTotal() }}</span>
+      </div>
+
+      <button class="checkout-btn" (click)="checkout()" [disabled]="isLoading()">
+        @if (isLoading()) {
+          <span>Procesando... ⏳</span>
+        } @else {
+          <span>Confirmar Pedido ✅</span>
+        }
+      </button>
+      
+      <button class="clear-btn" (click)="cartService.clearCart()" [disabled]="isLoading()">
+        Vaciar Carrito
+      </button>
+    </div>
+  }
+</div>

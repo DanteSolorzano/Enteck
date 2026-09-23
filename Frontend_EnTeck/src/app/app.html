@@ -1,0 +1,89 @@
+﻿<!-- Show ONLY Auth Component when on Auth View -->
+@if (currentView() === 'auth') {
+  <app-auth (loginSuccess)="onLoginSuccess()"></app-auth>
+}
+
+<!-- Show Admin Dashboard when admin is logged in -->
+@if (currentView() === 'admin') {
+  <app-admin></app-admin>
+  <button 
+    (click)="logout()"
+    style="position: fixed; bottom: 20px; right: 20px; padding: 10px 20px; border: 1px solid #ff4444; color: #ff4444; background: white; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+    Cerrar Sesión
+  </button>
+}
+
+<!-- Show Dashboard with Navigation when on other views -->
+@if (currentView() !== 'auth' && currentView() !== 'admin') {
+  <!-- Top Navigation Bar -->
+  <div style="background: #1a1a1a; border-bottom: 2px solid #00e5ff; padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; position: sticky; top: 0; z-index: 100; justify-content: space-between; box-shadow: 0 4px 15px rgba(0, 229, 255, 0.1);">
+    <!-- Logo and Home Button -->
+    <div style="display:flex; align-items:center; gap:15px;">
+      <div style="display:flex; align-items:center; gap:10px; cursor: pointer;" (click)="setView('home')">
+        <span style="font-size: 24px;">🔧</span>
+        <h2 style="margin: 0; color: #fff; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; font-size: 22px; flex-shrink: 0;">EnTeck<span style="color:#00e5ff">.</span></h2>
+      </div>
+      <button (click)="setView('home')" [style.color]="isViewActive('home') ? '#00e5ff' : '#ccc'" style="background:none; border:none; cursor:pointer; font-weight:bold; font-size:18px; padding: 0; transition: color 0.2s;">🏠</button>
+    </div>
+
+    <!-- Greeting Message -->
+    <div style="flex-grow: 1; text-align: center;">
+      @if (currentClient()) {
+        <span style="color: #00e5ff; font-size: 14px; font-weight: 500;">Bienvenido, {{ currentClient()?.nombre }}</span>
+      }
+    </div>
+
+    <!-- Cart and Logout -->
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button (click)="logout()" style="padding: 8px 15px; border: 1px solid #ff4444; color: #ff4444; background: transparent; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold;">Cerrar Sesión</button>
+    </div>
+  </div>
+
+  <div style="background-color: #f4f7f6; min-height: 100vh;">
+    
+    <!-- VISTA HOME: Main Menu with 3 Buttons -->
+    @if (currentView() === 'home') {
+      <div style="padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh;">
+        <h1 style="text-align: center; margin-bottom: 1rem; color: #333;">Bienvenido a EnTeck</h1>
+        <p style="text-align: center; margin-bottom: 3rem; color: #666; max-width: 600px;">Selecciona qué deseas hacer</p>
+        
+        <!-- 3 Main Menu Buttons -->
+        <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; max-width: 1000px;">
+          
+          <!-- Button 1: Service Order -->
+          <button 
+            (click)="setView('service-order')"
+            style="padding: 2rem; border: none; border-radius: 16px; background: linear-gradient(135deg, #007bff, #0056b3); color: white; cursor: pointer; width: 250px; display: flex; flex-direction: column; align-items: center; gap: 1rem; box-shadow: 0 4px 15px rgba(0,123,255,0.3); transition: transform 0.2s;">
+            <span style="font-size: 3rem;">📋</span>
+            <div>
+              <h3 style="margin: 0; font-size: 18px;">Nueva Orden de Servicio</h3>
+              <p style="margin: 0.5rem 0 0 0; font-size: 14px; opacity: 0.9;">Solicitar reparación</p>
+            </div>
+          </button>
+
+          <!-- Button 2: Current Orders -->
+          <button 
+            (click)="setView('tracking')"
+            style="padding: 2rem; border: none; border-radius: 16px; background: linear-gradient(135deg, #28a745, #1e7e34); color: white; cursor: pointer; width: 250px; display: flex; flex-direction: column; align-items: center; gap: 1rem; box-shadow: 0 4px 15px rgba(40,167,69,0.3); transition: transform 0.2s;">
+            <span style="font-size: 3rem;">📱</span>
+            <div>
+              <h3 style="margin: 0; font-size: 18px;">Mis Órdenes</h3>
+              <p style="margin: 0.5rem 0 0 0; font-size: 14px; opacity: 0.9;">Ver estado de reparaciones</p>
+            </div>
+          </button>
+        </div>
+      </div>
+    }
+    
+    <!-- VISTA SERVICE ORDER: Make a Service Request -->
+    @if (currentView() === 'service-order') {
+      <app-service-request></app-service-request>
+    }
+
+    <!-- VISTA TRACKING: Current Orders -->
+    @if (currentView() === 'tracking') { 
+      <app-tracking></app-tracking> 
+    }
+
+  </div>
+}

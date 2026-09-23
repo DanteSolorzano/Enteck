@@ -1,0 +1,36 @@
+:host {
+  display: block;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1001;
+  background: white;
+}
+
+table {
+  width: 100%;
+}
+
+table tr:hover {
+  background: #f9f9f9;
+}
+
+button:hover:not([disabled]) {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #667eea !important;
+  box-shadow: 0 0 8px rgba(102, 126, 234, 0.2);
+}

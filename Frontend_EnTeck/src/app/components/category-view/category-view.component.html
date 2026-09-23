@@ -1,0 +1,82 @@
+<div style="padding: 2rem; max-width: 1400px; margin: 0 auto;">
+  
+  <!-- Encabezado con Botón Volver -->
+  <div style="display: flex; align-items: center; margin-bottom: 2rem; gap: 1rem;">
+    <button (click)="goBack()" class="back-btn">
+      ← Volver al catálogo
+    </button>
+    
+    @if (categoryName) {
+      <div style="flex: 1; text-align: center;">
+        <h1 style="margin: 0; color: #333; font-size: 2rem;">{{ categoryName }}</h1>
+        <p style="margin: 5px 0 0 0; color: #888; font-size: 14px;">Explora nuestras opciones disponibles</p>
+      </div>
+    }
+  </div>
+
+  <!-- Estados de Carga y Error -->
+  @if (loading()) {
+    <div class="center-msg" style="color: #007bff;">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p style="margin-top: 20px;">Cargando inventario...</p>
+    </div>
+  } @else if (error()) {
+    <mat-card style="background: #fff5f5; border-left: 4px solid #f44336; padding: 20px;">
+      <mat-card-content>
+        <h3 style="color: #c62828; margin: 0;">Error de conexión</h3>
+        <p style="color: #555;">{{ error() }}</p>
+      </mat-card-content>
+    </mat-card>
+  } @else if (filteredItems().length > 0) {
+    
+    <!-- GRID DE PRODUCTOS -->
+    <div class="products-grid">
+      @for (item of filteredItems(); track item.id) {
+        
+        <!-- Tarjeta de Producto -->
+        <mat-card class="product-card" (click)="openProductDetail(item)">
+          
+          <!-- Imagen -->
+          <div class="image-container">
+            @if (item.imagenUrl) {
+              <img [src]="item.imagenUrl" [alt]="item.nombre" />
+            } @else {
+              <span style="font-size: 3rem; opacity: 0.2;">📱</span>
+            }
+            
+            <!-- Badges (Etiquetas) -->
+            @if (item.esServicio) {
+                <div class="badge service-badge">SERVICIO</div>
+            } @else if (item.stock === 0) {
+                <div class="badge out-of-stock">AGOTADO</div>
+            }
+          </div>
+
+          <!-- Contenido -->
+          <mat-card-content class="card-content">
+            <div>
+              <mat-card-title class="card-title">{{ item.nombre }}</mat-card-title>
+              <mat-card-subtitle class="card-subtitle">
+                <span>Compatible con:</span>
+                <strong>{{ item.modeloCompatible }}</strong>
+              </mat-card-subtitle>
+            </div>
+            
+            <div class="card-footer">
+              <span class="price">${{ item.precio }}</span>
+              <button class="add-btn">+</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+
+  } @else {
+    <!-- Sin Resultados -->
+    <div class="center-msg" style="color: #888;">
+      <span style="font-size: 3rem; display: block; margin-bottom: 1rem;">🔍</span>
+      <p style="font-size: 20px; font-weight: 600;">No encontramos resultados</p>
+      <p>Intenta buscar con otro modelo o categoría.</p>
+    </div>
+  }
+</div>

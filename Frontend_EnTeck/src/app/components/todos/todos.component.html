@@ -1,0 +1,36 @@
+<div style="padding: 2rem;">
+  @if (loading()) {
+    <div style="display: flex; justify-content: center; align-items: center; min-height: 400px;">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+  } @else if (error()) {
+    <mat-card style="background: #ffebee; border-left: 4px solid #f44336;">
+      <mat-card-content>
+        <p style="color: #c62828; font-weight: bold;">Error: {{ error() }}</p>
+      </mat-card-content>
+    </mat-card>
+  } @else if (menuItems().length > 0) {
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+      @for (item of menuItems(); track item.id) {
+        <mat-card class="menu-card" style="display: flex; flex-direction: column; overflow: hidden; cursor: pointer;" (click)="openProductDetail(item)">
+          <div style="width: 100%; height: 200px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+            @if (item.imagenUrl) {
+              <img [src]="item.imagenUrl" [alt]="item.nombre" style="width: 100%; height: 100%; object-fit: cover;" />
+            } @else {
+              <div style="width: 100%; height: 100%; background: #e0e0e0;"></div>
+            }
+          </div>
+          <mat-card-content style="flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <mat-card-title style="margin: 1rem 0 0.5rem 0;">{{ item.nombre }}</mat-card-title>
+              <mat-card-subtitle style="margin: 0 0 1rem 0;">{{ item.categoria }}</mat-card-subtitle>
+            </div>
+            <div style="text-align: right; padding-top: 1rem; border-top: 1px solid #e0e0e0;">
+              <span style="font-size: 1.5em; font-weight: bold; color: #667eea;">${{ item.precio }}</span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

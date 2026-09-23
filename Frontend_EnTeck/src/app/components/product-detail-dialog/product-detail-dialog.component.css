@@ -1,0 +1,176 @@
+.dialog-container {
+  padding: 0;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Botón cerrar X */
+.close-icon-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  font-weight: bold;
+}
+
+/* Imagen */
+.product-image-section {
+  width: 100%;
+  height: 250px;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.product-image-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder-image {
+  background: #f0f0f0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+}
+
+/* Badges (Etiquetas sobre imagen) */
+.badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.service-badge { background-color: #007bff; }
+.low-stock { background-color: #ff9800; top: 10px; bottom: auto; }
+
+/* Info Container */
+.product-info {
+  padding: 20px;
+  flex: 1;
+}
+
+.category-pill {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #007bff;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.product-info h1 {
+  margin: 0 0 12px 0;
+  font-size: 22px;
+  color: #333;
+  line-height: 1.2;
+}
+
+/* Caja de Compatibilidad */
+.compatibility-box {
+  background: #eef7ff;
+  border: 1px solid #cce5ff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  display: inline-block;
+}
+.compatibility-box .label { font-size: 11px; color: #666; display: block; }
+.compatibility-box .model { color: #0056b3; font-size: 14px; }
+
+/* Secciones Generales */
+.section { margin-bottom: 16px; }
+.section h3 { margin: 0 0 4px 0; font-size: 13px; font-weight: 600; color: #555; }
+.section p { margin: 0; color: #666; line-height: 1.5; font-size: 14px; }
+
+.stock-status { font-size: 13px; font-weight: 600; }
+.in-stock { color: #28a745; }
+.no-stock { color: #dc3545; }
+
+/* Precio */
+.price-section { margin: 10px 0; border-top: 1px solid #eee; padding-top: 15px; }
+.price { font-size: 28px; font-weight: 800; color: #333; }
+
+/* Footer de Acciones */
+.actions-footer {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+}
+
+/* Selector de Cantidad */
+.quantity-section {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.quantity-section button {
+  width: 40px;
+  height: 45px;
+  border: none;
+  background: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  color: #555;
+  transition: background 0.2s;
+}
+.quantity-section button:hover:not(:disabled) { background: #f5f5f5; }
+.quantity-section button:disabled { color: #ccc; cursor: not-allowed; }
+.quantity-section span {
+  min-width: 30px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* Botón Añadir */
+.add-button {
+  flex: 1;
+  background: #1a1a1a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-button:hover:not(.disabled-btn) {
+  background-color: #333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.disabled-btn {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}

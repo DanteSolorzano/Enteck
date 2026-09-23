@@ -1,0 +1,23 @@
+.favorite-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: block;
+}
+
+.favorite-card:hover {
+  transform: scale(1.05) translateY(-8px);
+  box-shadow: 0 12px 24px rgba(102, 126, 234, 0.3);
+  border-color: #667eea;
+}
+
+.favorite-card:hover img {
+  transform: scale(1.05);
+}
+
+.favorite-card img {
+  transition: transform 0.3s ease;
+}

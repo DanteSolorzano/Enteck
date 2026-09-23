@@ -1,0 +1,117 @@
+<div class="admin-overlay" (click)="close()">
+  <div class="admin-panel" (click)="$event.stopPropagation()">
+    
+    <!-- Header -->
+    <div class="admin-header">
+      <h2>🛠️ Panel de Administración EnTeck</h2>
+      <button class="close-btn" (click)="close()">✕</button>
+    </div>
+
+    <!-- Contenido -->
+    <div class="admin-content">
+      
+      <!-- Formulario de Edición/Creación -->
+      @if (isEditing()) {
+        <div class="edit-form">
+          <h3>{{ currentItem().id === 0 ? 'Nuevo Producto/Servicio' : 'Editar: ' + currentItem().nombre }}</h3>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input [(ngModel)]="currentItem().nombre" placeholder="Ej: Funda Uso Rudo">
+            </div>
+            
+            <div class="form-group">
+              <label>Categoría</label>
+              <select [(ngModel)]="currentItem().categoria">
+                <option value="Servicios">Servicios</option>
+                <option value="Fundas">Fundas</option>
+                <option value="Cargadores">Cargadores</option>
+                <option value="Refacciones">Refacciones</option>
+                <option value="Audio">Audio</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Modelo Compatible</label>
+              <input [(ngModel)]="currentItem().modeloCompatible" placeholder="Ej: iPhone 13, Universal...">
+            </div>
+
+            <div class="form-group">
+              <label>Precio ($)</label>
+              <input type="number" [(ngModel)]="currentItem().precio">
+            </div>
+
+            <div class="form-group">
+              <label>Stock</label>
+              <input type="number" [(ngModel)]="currentItem().stock" [disabled]="currentItem().esServicio">
+            </div>
+
+            <div class="form-group" style="flex-direction: row; align-items: center; gap: 10px; margin-top: 20px;">
+              <input type="checkbox" [(ngModel)]="currentItem().esServicio" id="chkServicio">
+              <label for="chkServicio" style="margin:0; cursor:pointer;">¿Es un Servicio? (Mano de obra)</label>
+            </div>
+            
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label>Descripción</label>
+              <textarea [(ngModel)]="currentItem().descripcion" rows="3"></textarea>
+            </div>
+
+             <div class="form-group" style="grid-column: 1 / -1;">
+              <label>URL Imagen</label>
+              <input [(ngModel)]="currentItem().imagenUrl" placeholder="https://...">
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-cancel" (click)="cancelEdit()">Cancelar</button>
+            <button class="btn btn-primary" (click)="saveItem()">Guardar Cambios</button>
+          </div>
+        </div>
+      } @else {
+        <!-- Botón Agregar -->
+        <button class="btn btn-add" (click)="startAdd()">+ Nuevo Item</button>
+
+        <!-- Tabla de Inventario -->
+        <table>
+          <thead>
+            <tr>
+              <th>Producto / Servicio</th>
+              <th>Categoría</th>
+              <th>Modelo</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of items(); track item.id) {
+              <tr>
+                <td>
+                  <strong>{{ item.nombre }}</strong>
+                  @if(item.esServicio) { <span style="font-size: 10px; color: #007bff; border: 1px solid #007bff; padding: 2px 4px; border-radius: 4px; margin-left: 5px;">SERVICIO</span> }
+                </td>
+                <td>{{ item.categoria }}</td>
+                <td>{{ item.modeloCompatible }}</td>
+                <td>${{ item.precio }}</td>
+                <td>
+                  @if (item.esServicio) {
+                    <span>∞</span>
+                  } @else {
+                    <span class="stock-badge" [class.in-stock]="item.stock > 5" [class.low-stock]="item.stock <= 5 && item.stock > 0" [class.out-stock]="item.stock === 0">
+                      {{ item.stock }}
+                    </span>
+                  }
+                </td>
+                <td>
+                  <button class="btn btn-edit" (click)="startEdit(item)">✏️</button>
+                  <button class="btn btn-delete" (click)="deleteItem(item.id)">🗑️</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+  </div>
+</div>

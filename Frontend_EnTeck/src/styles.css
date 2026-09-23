@@ -1,0 +1,55 @@
+/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+/* Card Animations - Applied to all cards */
+.menu-card {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  will-change: transform, box-shadow, border-color;
+}
+
+.menu-card:hover {
+  transform: scale(1.05) translateY(-8px) !important;
+  box-shadow: 0 12px 24px rgba(102, 126, 234, 0.3) !important;
+  border-color: #667eea !important;
+}
+
+.menu-card:hover img {
+  transform: scale(1.05);
+}
+
+.menu-card img {
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+.category-btn {
+  transition: all 0.3s ease;
+}
+
+.category-btn:hover {
+  border-color: #667eea !important;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.category-btn.active {
+  border-color: #667eea !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
